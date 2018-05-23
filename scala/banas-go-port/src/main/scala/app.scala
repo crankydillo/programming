@@ -123,7 +123,10 @@ object app extends App {
       )
     println(presAge.size)
     println(presAge("JFK"))
-    println(presAge - "JFK") // probably should have a 'remove' method
+
+    // probably should have a 'remove' method, but I can understand why they
+    // don't as it implies mutation.
+    println(presAge - "JFK") 
   }
   println()
 
