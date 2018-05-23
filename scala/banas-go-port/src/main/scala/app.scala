@@ -6,7 +6,11 @@ object app extends App {
     var favNum = 1.6180
     var randNum = 1
 
-    // scala will not error on an unused variable
+    // Scala compiler won't error due to unused variables.
+    // Of course, most people are using all kinds of tools to analyze
+    // their code.  The Scala compiler does some of that, and I've
+    // enabled it the build tool I'm using for this (SBT 1.X)
+    // Of course, a lot just rely on their IDE.
     println(randNum)
   }
   println()
