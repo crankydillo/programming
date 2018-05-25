@@ -168,6 +168,114 @@ object app extends App {
     }
   }
 
+  // closures
+  {
+    var num3 = 3
+
+    val doubleNum = () => {
+      num3 *= 2
+      num3
+    }
+
+    println(num3)
+    println(doubleNum())
+    println(doubleNum())
+  }
+
+  // recursion
+  {
+    println(factorial(5))
+    //println(factorial(100000)) this *could* blow your stack
+    println(tailFac(10000)) // this will handle bigger numbers, but I don't want to wait
+
+    // I'm going to get more terse...
+    def factorial(n: BigInt): BigInt = if (n == 0) 1 else n * factorial(n - 1)
+
+    // Should you even show recursion if you can't achieve tail (either
+    // explicitly or via compiler magic?)
+    def tailFac(num: BigInt): BigInt = {
+      @scala.annotation.tailrec
+      def helper(n: BigInt, runningTotal: BigInt): BigInt = {
+        if (n == 0) runningTotal
+        else helper(n - 1, runningTotal * n)
+      }
+      helper(num, 1)
+    }
+  }
+
+  // defer/recover
+  {
+    // AFAIK, Scala has nothing like go's defer, so I implemented something
+    // _like_ it in the deferral object below.
+    import deferral._
+
+    println(safeDiv(3, 0))
+    println(safeDiv(3, 2))
+
+    def safeDiv(i: Int, j: Int): Int = {
+      // go seems to chooses a default value?  What happens with struct, nil?
+      defer(e => /*println(recover(e));*/ 0) {
+        i / j
+      }
+    }
+
+    defer(e => println(recover(e))) {
+      panic("PANIC")
+    }
+  }
+
+  // pointers... I got nothing.  scala-native?  JNI?
+  
+  // classes
+  {
+    case class Rectangle(leftX: Float, topY: Float, height: Float, width: Float)
+    val rect1 = Rectangle(leftX = 0, topY = 50, height = 10, width = 10)
+    val rect2 = Rectangle(0, 50, 10, 10)
+    println(s"Rectangle is ${rect2.width} wide")
+
+    def area(r: Rectangle) = r.width * r.height
+
+    println(area(rect2))
+  }
+
+  // 'type' classes
+  {
+    // No native support, but there are some options..
+    case class Rectangle(height: Double, width: Double)
+    case class Circle(radius: Double)
+
+    trait `2d-shape` {
+      def area(): Double
+    }
+
+    implicit def rectToshape(r: Rectangle) = new `2d-shape` {
+      override def area(): Double = r.width * r.height
+    }
+    implicit def circleToshape(c: Circle) = new `2d-shape` {
+      override def area(): Double = Math.PI * Math.pow(c.radius, 2)
+    }
+
+    def getArea(s: `2d-shape`) = s.area()
+
+    println(getArea(Rectangle(20, 50)))
+    println(getArea(Circle(4)))
+  }
+  
   // Finish (i.e. get to the interesting stuff)
+  
+  object deferral {
+    import scala.util.Try
+    // Best I can do at this time..  Look at scalatest impl.
+    def defer[T](fn1:  Option[Throwable] => T)(fn2: => T): T = {
+      val tryfn2T = Try { fn2 }
+      val fn1T = fn1(tryfn2T.toEither.left.toOption)
+      tryfn2T.getOrElse(fn1T)
+    }
+    def recover(e: Option[Throwable]) = e.map(_.getMessage)
+
+    defer(_ => println(2)) { println(1) }  // How to remove `:Try[_]`?
+
+    def panic(msg: String) = throw new Exception(msg)
+  }
 }
 
