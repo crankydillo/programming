@@ -260,6 +260,38 @@ object app extends App {
     println(getArea(Rectangle(20, 50)))
     println(getArea(Circle(4)))
   }
+
+  // String conveniences..weird to come back to this..
+  {
+    val s = "Hello Worlld l"
+    println(s.contains("lo"))
+    println(s.indexOf("lo"))
+    println(s.filter(_ == 'l').size)
+
+    // A built-in replace n chars is one of the first 'simple'
+    // things that Go has that Scala lacks.  Can solve with functional
+    // or imperative styles.  If you want to use implicits, they could
+    // be used to add a replace(char, char, int) method to Strings.
+    println(
+      s.foldLeft (("", 0)) { case ((memo, ctr), char) =>
+        if (char == 'l' && ctr < 3) (memo + 'x', ctr+1) else (memo + char, ctr)
+      }._1
+    )
+
+    // He mentions error in unused import.  Doesn't happen by default, but see
+    // note above about unused vars.
+   
+    val csv = "1,2,3,4,5"
+    println(csv.split(",").toList)
+
+    val listOfLetters = List('c', 'a', 'b')
+    println(listOfLetters.sorted)
+
+    val listOfNums = List('3', '2', '1').mkString(", ")
+    println(listOfNums)
+  }
+
+  // File IO
   
   // Finish (i.e. get to the interesting stuff)
   
