@@ -274,7 +274,7 @@ object app extends App {
     // be used to add a replace(char, char, int) method to Strings.
     println(
       s.foldLeft (("", 0)) { case ((memo, ctr), char) =>
-        if (char == 'l' && ctr < 3) (memo + 'x', ctr+1) else (memo + char, ctr)
+        if (char == 'l' && ctr < 3) (memo + 'x', ctr + 1) else (memo + char, ctr)
       }._1
     )
 
