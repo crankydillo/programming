@@ -7,7 +7,6 @@ fn main() -> std::io::Result<()> {
     let input = File::open("../A-large-practice.in")?;
     let reader = BufReader::new(input);
     let mut output = File::create("./results")?;
-    //let mut writer = BufWriter::new(output);
     let lines = reader.lines().map(|l| l.unwrap()).collect::<Vec<_>>(); // I don't really want to do this, but time is short
 
     let results = lines.iter().enumerate().skip(1).map(|(ctr, line)| {
@@ -19,18 +18,8 @@ fn main() -> std::io::Result<()> {
     });
 
     let data = results.into_iter().map(|l| l + "\n").collect::<String>();
-    //output.write_all(data.into_bytes())?;
     println!("{}", data);
-    /*
-    write!(&mut writer, "{}", data);
-    writer.write(b"hi!");
-    for line in reader.lines().filter_map(|result| result.ok()) {
-        println!("{}", line);
-    }
-    */
-
     output.write_all(data.as_bytes())?;
-    //writer.flush();
     Ok(())
 }
 
@@ -95,4 +84,3 @@ fn flip(mut pancakes: Vec<bool>,
         flip(pancakes, flip_size, left_idx + 1, right_idx - 1, num_flips + flip_ctr)
     }
 }
-
