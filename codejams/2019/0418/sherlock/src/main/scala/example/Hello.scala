@@ -30,7 +30,9 @@ object Solution {
 
         println(grouped)
         if (grouped.size <= 1) "YES"
-        else if (grouped.size == 2 && grouped(0)._2.size == 1) "YES"
+        else if (grouped.size == 2 && 
+          grouped(0)._2.size == 1 &&
+          grouped(0)._1 - grouped(1)._1 == 1) "YES"
         else "NO"
     }
 
@@ -38,8 +40,12 @@ object Solution {
       List(
         "a",
         "ab",
+        "aab",
+        "abb",
+        "abbc",
         "aabbccc",
-        "aabbbccc"
+        "aabbbccc",
+        "aaaaabbbccc"
         ).foreach { s => println(isValid(s)) }
     }
 }
