@@ -14,6 +14,8 @@ import java.util.stream._
  * For a given set of integers find the largest subset such that for any two
  * numbers in the subset, there sum is not evenly divisible by a given integer,
  * k.
+ *
+ * https://www.hackerrank.com/contests/nerdlunch/challenges/non-divisible-subset
  */
 object Solution {
 
