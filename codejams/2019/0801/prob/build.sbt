@@ -7,7 +7,7 @@ ThisBuild / organizationName := "beeherd"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "jam",
+    name := "jam-20190801",
     libraryDependencies ++= Seq(
       scalaTest % Test,
       "org.scalacheck" %% "scalacheck" % "1.14.0" % Test
