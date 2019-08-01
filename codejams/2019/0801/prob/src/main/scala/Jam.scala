@@ -8,8 +8,7 @@ object Solution {
 
     val lists = s.toList.grouped(max.asInstanceOf[Int]).toList
 
-    lists.tail.foldLeft(lists.head.map { _.toString }) {
-      (memo, l) =>
+    lists.tail.foldLeft(lists.head.map { _.toString }) { (memo, l) =>
         l.zipWithIndex.map { case (c, idx) => memo(idx) + c } ++ memo.drop(l.size)
     }.mkString(" ")
   }
