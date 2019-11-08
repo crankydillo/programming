@@ -23,11 +23,12 @@ object Solution {
 
     val rand = new java.util.Random()
 
-    println(notifs(
-      (0 to 20000).toArray.map { _ => Math.abs(rand.nextInt) },
-      2
-    ))
-
-    println(notifs(Array(1, 2, 3, 4, 4), 4))
+    List(
+      (2, (0 to 20000).toArray.map { _ => Math.abs(rand.nextInt) }),
+      (4, Array(1, 2, 3, 4, 4)),
+      (5, Array(2, 3, 4, 2, 3, 6, 8, 4, 5))
+    ).foreach { case (n, exps) =>
+      println(notifs(exps, n))
+    }
   }
 }
